@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Entdecke, wer zu dir passt 💫</title>
+<style>
+  :root{--accent1:#ff66aa;--accent2:#ffa94d}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    color:#fff;
+    background-size:cover;
+    background-position:center;
+    transition:background-image 2s ease-in-out;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    text-align:center;
+    padding:20px;
+  }
+  .overlay{background:rgba(0,0,0,0.25);position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1}
+  .container{
+    width:100%;
+    max-width:640px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    padding:26px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  h1{color:var(--accent1);font-size:30px;margin:4px 0 8px}
+  #dynamicText{font-size:18px;color:#f0e9ff;margin-bottom:10px}
+  .meta{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+  .meta .item{background:rgba(0,0,0,0.18);padding:8px 12px;border-radius:999px;font-weight:600;color:#ffe;}
+  #timer{font-size:18px;color:#ffdd99;font-weight:700}
+  input{width:100%;padding:12px;margin:8px 0;border:none;border-radius:10px;font-size:16px}
+  button{
+    width:100%;
+    padding:12px;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    border:none;border-radius:10px;font-size:18px;font-weight:800;color:#111;cursor:pointer;margin-top:8px;
+    box-shadow:0 8px 18px rgba(255,102,170,0.12);
+  }
+  button:hover{transform:translateY(-2px)}
+  .trust{margin-top:14px;color:#e9dff5;font-size:14px}
+  .small{font-size:13px;color:#f3eaff;margin-top:8px}
+  @media (max-width:420px){h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+
+<div class="container" role="main" aria-labelledby="mainTitle">
+  <h1 id="mainTitle">Entdecke, wer zu dir passt 💫</h1>
+  <div id="dynamicText">Mach jetzt den beliebten Kompatibilitätstest!</div>
+
+  <div class="meta" aria-hidden="false">
+    <div class="item" id="liveView">👥 Zuschauer jetzt: <strong id="liveNum">1,234</strong></div>
+    <div class="item" id="todayCount">📈 Teilnahmen heute: <strong id="dailyNum">4,821</strong></div>
+    <div class="item" id="timer">⏳ Angebot endet in 02:00</div>
+  </div>
+
+  <form id="leadForm" action="https://formspree.io/f/xrbyjdog" method="POST" autocomplete="off">
+    <input name="name" type="text" placeholder="Dein Name" required>
+    <input name="age" type="number" placeholder="Dein Alter" required>
+    <input name="email" type="email" placeholder="Deine E-Mail" required>
+    <button type="submit" id="ctaBtn">Jetzt starten 🔥</button>
+  </form>
+
+  <div class="trust">🔒 Sicher & vertraulich • 💌 Schnell & einfach • 💫 Für Ergebnisse entwickelt</div>
+  <div class="small">*</div>
+</div>
+
+<script>
+const backgrounds = [
+  'https://b.top4top.io/p_35783s1p40.jpg',
+  'https://a.top4top.io/p_3578xj6bb0.jpg',
+  'https://g.top4top.io/p_35783254a0.jpg',
+  'https://j.top4top.io/p_3578ezq0b0.jpg',
+  'https://k.top4top.io/p_3578n9m5z0.jpg'
+];
+let bgIndex = 0;
+function changeBackground(){
+  document.body.style.backgroundImage = `url(${backgrounds[bgIndex]})`;
+  bgIndex = (bgIndex + 1) % backgrounds.length;
+}
+changeBackground();
+setInterval(changeBackground, 4500);
+
+const phrases = [
+  "Denkt die Person, an die du denkst, auch an dich? 💭",
+  "Wer ist am besten mit deiner Persönlichkeit kompatibel? 💞",
+  "Teile es, um herauszufinden, wer am meisten von dir angezogen ist 🔮",
+  "Entdecke die Liebesenergie, die dich heute umgibt ✨",
+  "Wirst du diese Woche deine Seelenverwandte finden? 💘",
+  "Mach den Test und sieh dein Ergebnis sofort ❤️"
+];
+let idx = 0;
+function changeText(){
+  document.getElementById('dynamicText').textContent = phrases[idx];
+  idx = (idx + 1) % phrases.length;
+}
+changeText();
+setInterval(changeText, 3000);
+
+let time = 120;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  const m = Math.floor(time/60).toString().padStart(2,'0');
+  const s = (time%60).toString().padStart(2,'0');
+  timerEl.textContent = `⏳ Angebot endet in ${m}:${s}`;
+  if(time <= 0){
+    clearInterval(countdown);
+    timerEl.textContent = "⚡ Die Chance endet bald, beeil dich!";
+  }
+  time--;
+}, 1000);
+
+const liveNumEl = document.getElementById('liveNum');
+const dailyNumEl = document.getElementById('dailyNum');
+let liveBase = 850 + Math.floor(Math.random()*1200);
+let dailyBase = 3200 + Math.floor(Math.random()*5000);
+liveNumEl.textContent = liveBase.toLocaleString();
+dailyNumEl.textContent = dailyBase.toLocaleString();
+
+setInterval(() => {
+  const deltaLive = Math.floor(Math.random()*7) - 3;
+  liveBase = Math.max(20, liveBase + deltaLive);
+  liveNumEl.textContent = liveBase.toLocaleString();
+  const addDaily = Math.floor(Math.random()*15);
+  dailyBase = dailyBase + addDaily;
+  dailyNumEl.textContent = dailyBase.toLocaleString();
+}, 3500);
+
+setInterval(() => {
+  if(Math.random() < 0.08){
+    const spike = 40 + Math.floor(Math.random()*120);
+    liveBase += spike;
+    liveNumEl.textContent = liveBase.toLocaleString();
+    setTimeout(()=>{ liveBase = Math.max(50, liveBase - Math.floor(spike/2)); liveNumEl.textContent = liveBase.toLocaleString(); }, 5000+Math.random()*7000);
+  }
+}, 8000);
+
+document.getElementById('leadForm').addEventListener('submit', function(e){
+  setTimeout(()=>{
+    const redirect = 'https://example-redirect-link.com';
+    window.location.href = redirect;
+  }, 1000);
+});
+</script>
+</body>
+</html>
